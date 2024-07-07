@@ -1,0 +1,17 @@
+# fzf setup
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+export FZF_DEFAULT_COMMAND='rg --files --hidden --follow --glob "!{.cache,.git,.local,.mozilla,.pyenv,.steam,.thunderbird,BraveSoftware}"'
+# onedark theme color
+#export FZF_DEFAULT_OPTS='--no-height --color=bg+:#3B4252,spinner:#81A1C1,hl:#616E88,fg:#D8DEE9,header:#616E88,info:#81A1C1,pointer:#81A1C1,marker:#81A1C1,fg+:#D8DEE9,prompt:#F92672,hl+:#81A1C1,preview-bg:#222222'
+# gruvbox theme color
+export FZF_DEFAULT_OPTS='--no-height --color=bg+:#3c3836,spinner:#fb4934,hl:#928374,fg:#ebdbb2,header:#928374,info:#8ec07c,pointer:#fb4934,marker:#fb4934,fg+:#ebdbb2,prompt:#fb4934,hl+:#fb4934,preview-bg:#222222'
+
+# fzf aliases
+alias ff='fzf --preview="head -$LINES {}" --preview-window="right:50%" --bind="ctrl-/:toggle-preview" | xargs -r -I % xed %'    # open in xed
+#alias ff='vi $(fzf --preview="head -$LINES {}" --preview-window="right:50%" --bind="ctrl-/:toggle-preview")'   # open in vim
+alias fd='cd $HOME/Documents && fzf --preview="head -$LINES {}" --preview-window="right:50%" --bind="ctrl-/:toggle-preview" | xargs -r -I % xed %'
+#alias fd='cd $HOME/Documents && vi $(fzf --preview="head -$LINES {}" --preview-window="right:50%" --bind="ctrl-/:toggle-preview")'
+alias FF='cd $HOME && fzf --preview="head -$LINES {}" --preview-window="right:50%" --bind="ctrl-/:toggle-preview" | xargs -r -I % xed %'
+alias Rg='rga'
+#alias Rg='rg --column --line-number --no-heading --hidden --smart-case "${*:-}" | fzf --delimiter : --preview "head -$LINES {1}" --preview-window="right:50%" --bind="ctrl-/:toggle-preview"'
+
