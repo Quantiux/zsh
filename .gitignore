@@ -1,0 +1,4 @@
+# .gitignore
+.zcompdump
+.zhistory
+plugins
