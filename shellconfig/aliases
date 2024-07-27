@@ -15,7 +15,9 @@ alias df='df -h'
 alias du='du -h --max-depth=1'
 alias f='free -h'
 alias reboot='sudo reboot now'
-alias ipshow='curl ifconfig.co'
+alias ipublic='curl ifconfig.co'
+alias iprivate='hostname -I | cut -d" " -f1'
+alias coredump='cd /var/lib/systemd/coredump && ll'
 
 # Package aliases
 alias update='sudo apt update'
