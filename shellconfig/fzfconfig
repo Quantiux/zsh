@@ -1,17 +1,102 @@
-# fzf setup
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-export FZF_DEFAULT_COMMAND='rg --files --hidden --follow --glob "!{.cache,.git,.local,.mozilla,.pyenv,.steam,.thunderbird,BraveSoftware}"'
-# onedark theme color
-#export FZF_DEFAULT_OPTS='--no-height --color=bg+:#3B4252,spinner:#81A1C1,hl:#616E88,fg:#D8DEE9,header:#616E88,info:#81A1C1,pointer:#81A1C1,marker:#81A1C1,fg+:#D8DEE9,prompt:#F92672,hl+:#81A1C1,preview-bg:#222222'
-# gruvbox theme color
-export FZF_DEFAULT_OPTS='--no-height --color=bg+:#3c3836,spinner:#fb4934,hl:#928374,fg:#ebdbb2,header:#928374,info:#8ec07c,pointer:#fb4934,marker:#fb4934,fg+:#ebdbb2,prompt:#fb4934,hl+:#fb4934,preview-bg:#222222'
+# set up default arguments for "fzf" command (for file search, not live grep)
+export FZF_DEFAULT_COMMAND="rg --files --hidden --follow"
 
-# fzf aliases
-alias ff='fzf --preview="head -$LINES {}" --preview-window="right:50%" --bind="ctrl-/:toggle-preview" | xargs -r -I % xed %'    # open in xed
-#alias ff='vi $(fzf --preview="head -$LINES {}" --preview-window="right:50%" --bind="ctrl-/:toggle-preview")'   # open in vim
-alias fd='cd $HOME/Documents && fzf --preview="head -$LINES {}" --preview-window="right:50%" --bind="ctrl-/:toggle-preview" | xargs -r -I % xed %'
-#alias fd='cd $HOME/Documents && vi $(fzf --preview="head -$LINES {}" --preview-window="right:50%" --bind="ctrl-/:toggle-preview")'
-alias FF='cd $HOME && fzf --preview="head -$LINES {}" --preview-window="right:50%" --bind="ctrl-/:toggle-preview" | xargs -r -I % xed %'
-alias Rg='rga'
-#alias Rg='rg --column --line-number --no-heading --hidden --smart-case "${*:-}" | fzf --delimiter : --preview "head -$LINES {1}" --preview-window="right:50%" --bind="ctrl-/:toggle-preview"'
+# tokyonight-storm color scheme (https://github.com/folke/tokyonight.nvim/blob/main/extras/fzf/tokyonight_storm.sh)
+export FZF_DEFAULT_OPTS="$FZF_DEFAULT_OPTS \
+  --highlight-line \
+  --info=inline-right \
+  --ansi \
+  --layout=reverse \
+  --border=none
+  --color=bg+:#2e3c64 \
+  --color=bg:#1f2335 \
+  --color=border:#29a4bd \
+  --color=fg:#c0caf5 \
+  --color=gutter:#1f2335 \
+  --color=header:#ff9e64 \
+  --color=hl+:#2ac3de \
+  --color=hl:#2ac3de \
+  --color=info:#545c7e \
+  --color=marker:#ff007c \
+  --color=pointer:#ff007c \
+  --color=prompt:#2ac3de \
+  --color=query:#c0caf5:regular \
+  --color=scrollbar:#29a4bd \
+  --color=separator:#ff9e64 \
+  --color=spinner:#ff007c \
+"
 
+# alias for file search in ~/ with keybinding <ff> (file opens in xed)
+# (fzf command includes "--ignore-file $HOME/.ignore" argument via FZF_DEFAULT_COMMAND above)
+alias ff='fzf --preview="batcat \
+              --style=numbers \
+              --color=always {} || \
+              head -n $LINES {}" \
+              --preview-window="right:50%" \
+              --bind="ctrl-/:toggle-preview" | \
+              xargs -r -I % xed %'
+
+# alias to grep string in ~/ with keybinding <gg> (live_grep uses "rg" instead of "rg --files" for file search inside fzf)
+# all "rg" commands must explicitly include "--ignore-file $HOME/.ignore" (FZF_DEFAULT_COMMAND only works for fzf, not rg)
+alias gg='rg --column \
+             --line-number \
+             --no-heading \
+             --hidden \
+             --smart-case \
+             "${*:-}" | \
+          fzf --delimiter : \
+              --preview "batcat \
+              --color=always \
+              --highlight-line {2} {1} || \
+              head -n $LINES {1}" \
+              --preview-window="right:50%" \
+              --bind="ctrl-/:toggle-preview"'
+
+# alias to grep string in ~/Documents with keybinding <gd>
+# <sed "s|$HOME/Documents/||"> replaces "$HOME/Documents/" by "" in output path string (shrinks output)
+alias gd='rg --column \
+             --line-number \
+             --no-heading \
+             --hidden \
+             --smart-case \
+             "${*:-}" "$HOME/Documents" | \
+             sed "s|$HOME/Documents/||" | \
+          fzf --delimiter : \
+              --preview "batcat \
+              --color=always \
+              --highlight-line {2} {1} || \
+              head -n $LINES {1}" \
+              --preview-window="right:50%" \
+              --bind="ctrl-/:toggle-preview"'
+
+# alias to grep string in ~/Projects with keybinding <gp>
+alias gp='rg --column \
+             --line-number \
+             --no-heading \
+             --hidden \
+             --smart-case \
+             "${*:-}" "$HOME/Projects" | \
+             sed "s|$HOME/Projects/||" | \
+          fzf --delimiter : \
+              --preview "batcat \
+              --color=always \
+              --highlight-line {2} {1} || \
+              head -n $LINES {1}" \
+              --preview-window="right:50%" \
+              --bind="ctrl-/:toggle-preview"'
+
+# alias to grep string in ~/.config with keybinding <gc>
+alias gc='rg --column \
+             --line-number \
+             --no-heading \
+             --hidden \
+             --smart-case \
+             "${*:-}" "$HOME/.config" | \
+             sed "s|$HOME/.config/||" | \
+          fzf --delimiter : \
+              --preview "batcat \
+              --color=always \
+              --highlight-line {2} {1} || \
+              head -n $LINES {1}" \
+              --preview-window="right:50%" \
+              --bind="ctrl-/:toggle-preview"'
