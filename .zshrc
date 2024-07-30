@@ -75,8 +75,6 @@ export LANG="en_US.UTF-8"
 export LC_ALL="en_US.UTF-8"
 export LC_CTYPE="en_US.UTF-8"
 
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-
 # set up pyenv
 export PYENV_ROOT="$HOME/.pyenv"
 command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
@@ -91,3 +89,5 @@ export PATH=$PATH:/usr/local/go/bin
 # set $XDG_CONFIG_HOME
 export XDG_CONFIG_HOME=$HOME/.config
 
+# set up fzf (line auto-added during install)
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
