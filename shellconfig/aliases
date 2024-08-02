@@ -35,7 +35,7 @@ alias py='python'
 alias ipy='pipenv run ipython'
 alias i='inxi -Fxxxrz'
 alias t='htop'
-alias r='R --save'
+alias R='R --save'
 alias n='neofetch'
 alias s='sensors'
 alias y='yt-dlp'
@@ -55,3 +55,7 @@ alias mount_nbook2='sshfs roy@192.168.4.26:/home/roy ~/Nbook2'
 alias umount_nbook2='fusermount -u ~/Nbook2'
 alias mount_nbook3='sshfs roy@192.168.4.29:/home/roy ~/Nbook3'
 alias umount_nbook3='fusermount -u ~/Nbook3'
+
+# Alias for R.nvim plugin (https://github.com/R-nvim/R.nvim)
+alias r='R_AUTO_START=true nvim'
+
